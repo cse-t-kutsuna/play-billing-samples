@@ -645,6 +645,10 @@ public class BillingDataSource implements LifecycleObserver, PurchasesUpdatedLis
                     // make sure the state is set
                     setSkuStateFromPurchase(purchase);
                 }
+
+                Log.i(TAG, purchase.getOriginalJson());
+
+//                this.postData("heroku api url", purchase.getOriginalJson());
             }
         } else{
             Log.d(TAG, "Empty purchase list.");
@@ -851,5 +855,9 @@ public class BillingDataSource implements LifecycleObserver, PurchasesUpdatedLis
         SKU_STATE_PENDING,
         SKU_STATE_PURCHASED,
         SKU_STATE_PURCHASED_AND_ACKNOWLEDGED,
+    }
+
+    public void postData() {
+
     }
 }

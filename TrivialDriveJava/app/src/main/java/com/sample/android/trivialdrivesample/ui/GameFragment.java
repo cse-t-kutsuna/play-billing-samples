@@ -15,7 +15,9 @@
  */
 package com.sample.android.trivialdrivesample.ui;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +30,20 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.sample.android.trivialdrivesample.GameViewModel;
 import com.sample.android.trivialdrivesample.R;
 import com.sample.android.trivialdrivesample.TrivialDriveApplication;
 import com.sample.android.trivialdrivesample.databinding.FragmentGameBinding;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 /**
  * This Fragment represents the game world, but it really just exists to bind the variables used
@@ -89,4 +101,45 @@ public class GameFragment extends androidx.fragment.app.Fragment {
     public void purchase(View view) {
         Navigation.findNavController(view).navigate(R.id.action_gameFragment_to_makePurchaseFragment);
     }
+
+    //追加分
+    public void showPrivacyPolicy() {
+        Intent intent = new Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://keinoue8.wixsite.com/privacypolicy"));
+
+        startActivity(intent);
+    }
+
+    public void postTest() {
+        HashMap<String, String> sampleData = new HashMap();
+        sampleData.put("foo", "bar");
+
+//        this.postData("http://10.0.2.2:3000/check/post", sampleData);
+        this.postData("http://192.168.0.118:3000/check/post", sampleData);
+    }
+
+    public void postData(String url, HashMap data) {
+        RequestQueue requstQueue = Volley.newRequestQueue(this.getContext());
+
+        JsonObjectRequest jsonobj = new JsonObjectRequest(Request.Method.POST, url,new JSONObject(data),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.i("LOG_VOLLEY", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("LOG_VOLLEY", error.toString());                    }
+                }
+        ){
+            //here I want to post data to sever
+        };
+        requstQueue.add(jsonobj);
+
+    }
+    //追加分
+
 }

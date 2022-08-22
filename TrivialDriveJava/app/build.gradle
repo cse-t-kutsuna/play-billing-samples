@@ -67,6 +67,7 @@ dependencies {
 
 
     implementation "androidx.room:room-runtime:$version_room"
+    implementation 'com.android.volley:volley:1.2.0'
     annotationProcessor "androidx.room:room-compiler:$version_room"
 
     implementation "androidx.navigation:navigation-fragment:$version_navigation"
